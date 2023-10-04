@@ -1,8 +1,9 @@
+
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const PatientModel=require('./PatientModel')
+const PatientModel=require('./DoctorModel')
 
-const doctorSchema = new mongoose.Schema({
+const PatientSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
@@ -25,11 +26,8 @@ const doctorSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-  hourly_rate: {
-    type: Number,
-    required: true,
-  },
-  patients: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Patient' }]
+  
+  myDoctors: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Doctor' }]
  
 });
 
@@ -44,6 +42,6 @@ doctorSchema.pre('save', function (next) {
   next();
 });
 
-const Doctor = mongoose.model('Doctor', doctorSchema);
+const Patient = mongoose.model('PAtient', PatientSchema);
 
-module.exports = Doctor;
+module.exports = Patient;
