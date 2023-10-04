@@ -1,9 +1,9 @@
 require('dotenv').config()
 
 
-const express= require('express')
+const express= require("express")
 const mongoose=require('mongoose')
-const userRoutes=require('./routes/Users')
+const {createDoctor} = require("./controllers/doctorController")
 
 //express app
 const app = express()
@@ -14,7 +14,7 @@ app.use((req,res,next)=>{
     next()
 })
 //routes
-app.use('/api/Users',userRoutes)
+
 
 //connect to DB
 mongoose.connect('mongodb+srv://laylathabet:iwant28.@cluster0.vv8gqjs.mongodb.net/?retryWrites=true&w=majority')
@@ -28,4 +28,8 @@ app.listen(4000,()=>{
 .catch((error)=>{
     console.log(error)
 })
-
+app.use(express.json())
+app.post("/addDoctor",createDoctor);
+//app.get("/users", getUsers);
+//app.put("/updateUser", updateUser);
+//app.delete("/deleteUser", deleteUser);

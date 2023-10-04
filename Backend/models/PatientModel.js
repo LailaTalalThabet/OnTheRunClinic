@@ -32,7 +32,7 @@ const PatientSchema = new mongoose.Schema({
 });
 
 // Hash the password before saving to the database
-doctorSchema.pre('save', function (next) {
+PatientSchema.pre('save', function (next) {
   if (!this.isModified('password')) {
     return next();
   }
@@ -42,6 +42,6 @@ doctorSchema.pre('save', function (next) {
   next();
 });
 
-const Patient = mongoose.model('PAtient', PatientSchema);
+const Patient = mongoose.model('Patient', PatientSchema);
 
 module.exports = Patient;

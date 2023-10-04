@@ -1,48 +1,42 @@
-const Doctor=require('../models/DoctorModel')
+// Import necessary modules and models
+const express = require('express');
 
-//create a new doctor
-const { default: mongoose } = require('mongoose');
+const Doctor = require('../models/DoctorModel'); // Import your Doctor model
 
+// Register Doctor Controller
 const createDoctor = async(req,res) => {
-   //add a new doctor to the database with 
-   //Name,type,password
-   const{Username,Name,Email,Password,Date_Of_Birth,Gender,Mobile_Number,Hourly_Rate,Hospital, Speciality} = req.body ;
-   console.log(req.body);
-   try {
-      const user = await Doctor.create({Username,Name,Email,Password,Date_Of_Birth,Gender,Mobile_Number,Hourly_Rate,Hospital, Speciality});
-      console.log(user);
-      res.status(200).json(user)
-   }catch(error) {
-         res.status(400).json({error:error.message})
-       }    
-   }
+  try {
+    // Extract data from the request body
+    const {
+      username,
+      name,
+      email,
+      password,
+      date_of_birth,
+      hourly_rate
+    } = req.body;
 
+    // Create a new doctor record
+    const newDoctor = new Doctor({
+      username,
+      name,
+      email,
+      password, // Hash the password before saving (use a library like bcrypt)
+      date_of_birth,
+      hourly_rate,
+      patients:[]
+    });
 
+    // Save the new doctor to the database
+    await newDoctor.save();
 
-const getPatients = async (req, res) => {
-   //retrieve all patients of a doctor
-	const{Username} = req.body ; 
-   const patients = await DoctorModel.find({Username:Username},{Patients:1});
-    console.log(patients);
-   res.status(200).json(users)
+    res.status(201).json({ message: 'Doctor registered successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while registering the doctor' });
   }
+};
 
-  const updateDoctor = async (req, res) => {
-    //update a user in the database
-    try{
-       const{username}=req.body
-       const user = await userModel.findOne({Name : Name})
-       
-       user.save()
-       res.status(200).json(user)
-    }catch{1
- 
-       res.status(400).json({error:ServiceWorkerRegistration.message})
-    }
-   }
+// Implement other controllers (e.g., update profile, view profile, list patients, etc.) following a similar structure
 
-
-
-
-
-module.exports = {createDoctor, getPatients};
+module.exports={createDoctor}
