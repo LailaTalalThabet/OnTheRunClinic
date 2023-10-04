@@ -4,6 +4,7 @@ require('dotenv').config()
 const express= require("express")
 const mongoose=require('mongoose')
 const {createDoctor} = require("./controllers/doctorController")
+const {createPatient} = require("./controllers/patientController")
 
 //express app
 const app = express()
@@ -30,6 +31,7 @@ app.listen(4000,()=>{
 })
 app.use(express.json())
 app.post("/addDoctor",createDoctor);
+app.post("/addPatient",createPatient);
 //app.get("/users", getUsers);
 //app.put("/updateUser", updateUser);
 //app.delete("/deleteUser", deleteUser);
